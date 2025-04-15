@@ -1,6 +1,7 @@
 #include "Set.h"
 #include <iostream>
 
+
 Set::Set() {
 	m_size = 0;
 }
@@ -18,7 +19,7 @@ bool Set::insert(const ItemType& value) {
 		return false;
 	}
 	m_items[m_size] = value;
-	m_size++;	// Check logic bc idk if I should add another one afterwards?
+	m_size++;	
 	return true;
 }
 
@@ -97,3 +98,5 @@ void Set::dump() const {
         std::cerr << m_items[i] << " ";
     }
 }
+
+

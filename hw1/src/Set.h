@@ -3,8 +3,8 @@
 
 #include <string>
 
-//using ItemType = std::string;
-using ItemType = unsigned long;
+using ItemType = std::string;
+//using ItemType = unsigned long;
 const int DEFAULT_MAX_ITEMS = 140;
 
 class Set {

@@ -14,8 +14,8 @@ int SerialNumberSet::size() const {
 }
 
 void SerialNumberSet::print() const {
-	// Can write to cout 
-	// Can use for loop 
+	// Can write to cout
+	// Can use for loop
 	unsigned long serialNum;
 	for (int i = 0; i < data.size(); i++) {
 		if (data.get(i, serialNum)) {

@@ -1,5 +1,5 @@
-#ifndef SET_INCLUDED
-#define SET_INCLUDED
+#ifndef NEWSET_INCLUDED
+#define NEWSET_INCLUDED
 
 #include <string>
 
@@ -8,8 +8,13 @@ using ItemType = std::string;
 const int DEFAULT_MAX_ITEMS = 140;
 
 class Set {
-public: 
-	Set();  
+public:
+	Set(); // Default constructor
+	Set(int capacity); // Constructor for variable size
+	~Set(); // Destructor
+	Set(const Set& other); // Copy constructor 
+	Set& operator = (const Set& other); // Assignment operator
+
 	bool empty() const;
 	int size() const;
 	bool insert(const ItemType& value);
@@ -19,8 +24,10 @@ public:
 	void swap(Set& other);
 	void dump() const;
 private:
-	ItemType m_items[DEFAULT_MAX_ITEMS];
+	ItemType* m_items; // Now a pointer for dynamic array
 	int m_size;
+	int m_capacity;
 };
+
 
 #endif

@@ -1,6 +1,7 @@
 #include "Set.h"
 #include <iostream>
 
+
 Set::Set() {
 	m_size = 0;
 }
@@ -18,7 +19,7 @@ bool Set::insert(const ItemType& value) {
 		return false;
 	}
 	m_items[m_size] = value;
-	m_size++;	// Check logic bc idk if I should add another one afterwards?
+	m_size++;	
 	return true;
 }
 
@@ -79,7 +80,7 @@ bool Set::get(int i, ItemType& value) const {
 
 void Set::swap(Set& other) {
     // Exchange the contents of this set with the other one.
-    for (int i = 0; i < DEFAULT_MAX_ITEMS; i++) {
+    for (int i = 0; i < m_size; i++) { // Changed DEFAULT_MAX_ITEMS to m_size
         ItemType temp = m_items[i];
         m_items[i] = other.m_items[i];
         other.m_items[i] = temp;
@@ -97,3 +98,5 @@ void Set::dump() const {
         std::cerr << m_items[i] << " ";
     }
 }
+
+

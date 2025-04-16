@@ -137,7 +137,11 @@ bool Set::contains(const ItemType& value) const {
 }
 
 bool Set::get(int i, ItemType& value) const {
-    ItemType sorted[DEFAULT_MAX_ITEMS];
+    if (i < 0 || i >= m_size) {
+        return false;
+    }
+
+    ItemType* sorted = new ItemType[m_size];
     // If 0 <= i < size(), copy into value the item in the set that is
     // strictly greater than exactly i items in the set and return true.
     // Otherwise, leave value unchanged and return false.
@@ -160,12 +164,10 @@ bool Set::get(int i, ItemType& value) const {
         sorted[minIndex] = temp;
     }
 
-    if (i >= 0 && i < m_size) {
-        value = sorted[i];
-        return true;
-    }
+    value = sorted[i];
+    delete[] sorted;
 
-    return false;
+    return true;
 }
 
 void Set::swap(Set& other) {   

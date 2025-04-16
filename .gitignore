@@ -1,0 +1,101 @@
+# Ignore compiled object files
+*.o
+*.obj
+*.d
+
+*.vcxproj
+*.vcxproj.filters
+
+# Ignore precompiled headers
+*.gch
+*.pch
+
+# Ignore compiled libraries
+*.lib
+*.a
+*.so
+*.dll
+*.exp
+
+# Ignore executables
+*.exe
+*.out
+*.app
+
+# Ignore Visual Studio files
+*.user
+*.user.*
+*.suo
+*.sdf
+*.opensdf
+*.sln.docstates
+*.ncb
+*. VC.db
+*.VC.VCWIP
+*.idb
+*.pdb
+*.ipch
+*.resources
+*.sbr
+*.frx
+*.tlog
+*.ilk
+*.log
+*.obj
+Debug/
+Release/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+
+# Ignore .vs directory
+.vs/
+
+# Ignore NuGet packages
+packages/
+*.nupkg
+
+# Ignore temporary files
+*~
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Ignore Editor settings
+.vscode/
+
+# Ignore Windows files
+Thumbs.db
+Desktop.ini
+
+# CMake
+CMakeLists.user.prefs
+build/ # If you have a dedicated build directory
+out/
+
+# Doxygen
+/docs/html/
+/docs/latex/
+
+# Testing
+*.test*
+*/TestResults/*
+
+# Code Analysis Results
+*.analysis.xml
+*.CodeAnalysisLog.xml
+
+# Resource files
+*.resx
+
+# Files that might contain secrets
+*.publishsettings
+*.config
+*.idea/workspace.xml # IntelliJ
+*.env # Environment variables
+
+# Node related (if you have any web assets)
+node_modules/

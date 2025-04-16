@@ -80,7 +80,7 @@ bool Set::get(int i, ItemType& value) const {
 
 void Set::swap(Set& other) {
     // Exchange the contents of this set with the other one.
-    for (int i = 0; i < m_size; i++) { // Changed DEFAULT_MAX_ITEMS to m_size
+    for (int i = 0; i < DEFAULT_MAX_ITEMS; i++) {
         ItemType temp = m_items[i];
         m_items[i] = other.m_items[i];
         other.m_items[i] = temp;

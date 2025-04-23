@@ -163,7 +163,7 @@ void unite(const Set& s1, const Set& s2, Set& result) {
         }
     }
 
-    result = temp;
+    result.swap(temp);
 }
 
 void excludeInclude(const Set& s1, const Set& s2, Set& result) {
@@ -180,5 +180,5 @@ void excludeInclude(const Set& s1, const Set& s2, Set& result) {
         }
     }
 
-    result = temp;
+    result.swap(temp);
 }

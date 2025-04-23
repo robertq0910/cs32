@@ -1,0 +1,4 @@
+2-- (3,5) (3,6) (3,4) (2,4) (1,4) (1,3) (1,2) (1,1) (2,1) (3,3) (4,5) (5,5)
+4-- (3,5) (4,5) (3,4) (3,6) (5,5) (3,3) (2,4) (6,5) (5,4) (1,4) (7,5) (5,3) 
+
+The stack algorithm uses depth-first searching and the queue algorithm uses breadth-first searching. They visit cells in the maze in a different order since because the stack algorithm pops the last pushed coordinate pushed (LIFO) and the queue algorithm pops the oldest pushed coordinate (FIFO). 

@@ -15,16 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Set.cpp">
+    <ClCompile Include="src\eval.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="testSet.cpp">
+    <ClCompile Include="src\mazequeue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Set.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="src\mazestack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -154,7 +154,7 @@ void unite(const Set& s1, const Set& s2, Set& result) {
     result = s1; // Copy s1's values to result. result's original values will be deleted
 
     for (int i = 0; i < s2.size();i++) {    // Loop thru s2 with get()
-        if (s2.get(i, value) == true) {             // If calling get() on s2 is valid // 
+        if (s2.get(i, value) == true) {             // If calling get() on s2 is valid 
             result.insert(value);   // Insert value into result
         }
     }

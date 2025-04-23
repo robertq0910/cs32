@@ -128,6 +128,10 @@ bool Set::get(int i, ItemType& value) const {
 }
 
 void Set::swap(Set& other) {
+    if (this == &other) {
+        return;
+    }
+
     // GOAL: Exchange the contents of this set with the other one.
     // Point original head to new head 
     Node* temphead = head;
@@ -151,27 +155,30 @@ void unite(const Set& s1, const Set& s2, Set& result) {
     
     ItemType value;     // Don't need to assign value bc functions pass by reference
 
-    result = s1; // Copy s1's values to result. result's original values will be deleted
+    Set temp = s1; // Copy s1's values to a temporary Set
 
     for (int i = 0; i < s2.size();i++) {    // Loop thru s2 with get()
         if (s2.get(i, value) == true) {             // If calling get() on s2 is valid 
-            result.insert(value);   // Insert value into result
+            temp.insert(value);   // Insert value into result
         }
     }
+
+    result = temp;
 }
 
 void excludeInclude(const Set& s1, const Set& s2, Set& result) {
     // GOAL: s2 - s1 = result
     // Copy s2 to result 
     
-    result = s2;
-    // Erase s1 values from result 
+    Set temp = s2;
+    // Erase s1 values from temp 
     ItemType value;
 
     for (int i = 0; i < s1.size(); i++) {
         if (s1.get(i, value) == true) {
-            result.erase(value);
+            temp.erase(value);
         }
     }
 
+    result = temp;
 }

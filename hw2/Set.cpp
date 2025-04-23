@@ -58,12 +58,12 @@ int Set::size() const {
 }
 
 bool Set::insert(const ItemType& value) {
-    if (contains(value) == true) {
-        return false;
-    }
-
     Node* p;
     for (p = head->next; p != head; p = p->next) {
+        if (p->data == value) {
+            return false;
+        }
+
         if (p->data > value) {
             break;
         }
@@ -71,7 +71,7 @@ bool Set::insert(const ItemType& value) {
 
     // Create a new node  
     Node* newNode = new Node(value);   
-    newNode->data = value;
+    newNode->data = value; // This line is not needed. This is done in Node's ctor
 
     // Link new node 
     newNode->next = p;
@@ -112,11 +112,11 @@ bool Set::get(int i, ItemType& value) const {
     // strictly greater than exactly i items in the set and return true.
     // Otherwise, leave value unchanged and return false.
 
-    int j = 0;
     if (i < 0 || i >= size()) {
         return false;
     }
 
+    int j = 0;
     for (Node* p = head->next; p != head; p = p->next) {
         if (j == i) {
             value = p->data;
@@ -152,19 +152,22 @@ void unite(const Set& s1, const Set& s2, Set& result) {
     ItemType value;     // Don't need to assign value bc functions pass by reference
 
     // Call erase() to delete everything in result
-    for (int i = 0; i < result.size(); i++) {
-        if (result.get(i, value) == true) { // If calling get() on result is valid
-            result.erase(value);
-        }
+    //for (int i = 0; i < result.size(); i++) {
+    //    if (result.get(i, value) == true) { // If calling get() on result is valid
+    //        result.erase(value);
+    //    }
+    //}
+    while (result.get(0, value)) {
+        result.erase(value);
     }
 
     for (int i = 0; i < s1.size(); i++) {    // Loop thru s1 with get()
-        if (s1.get(i, value) == true) {     // If calling get() on s1 is valid 
+        if (s1.get(i, value) == true) {     // If calling get() on s1 is valid
             result.insert(value);     // Insert value into result
         }
     }
     for (int i = 0; i < s2.size();i++) {    // Loop thru s2 with get()
-        if (s2.get(i, value) == true) {             // If calling get() on s2 is valid 
+        if (s2.get(i, value) == true) {             // If calling get() on s2 is valid // always be true
             result.insert(value);   // Insert value into result
         }
     }

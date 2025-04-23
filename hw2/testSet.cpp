@@ -43,18 +43,23 @@ void test()
     assert(b.contains("pizza"));
     assert(b.contains("ramen"));
     
+    a.insert("pizza");
     // Check that repeats aren't allowed
     Set c;
     c.insert("waffle");
     assert(!c.insert("waffle"));
+    c.insert("eggs");
+    assert(!c.insert("eggs"));
 
     // Check unite()
         // Result already contains a value
     unite(a, b, c);
+    assert(c.size() == 3);
     assert(c.contains("pizza"));    // result set contains s1 + s2
     assert(c.contains("ramen"));
     assert(c.contains("spam"));
     assert(!c.contains("waffle"));  // result set doesn't contain original value
+    assert(!c.contains("eggs"));  // result set doesn't contain original value
 
         // Result starts out empty 
     c.erase("pizza");
@@ -75,13 +80,18 @@ void test()
     f.insert("banana");
     
     excludeInclude(d, e, f);
+    assert(f.size() == 1);
     assert(f.contains("apple"));    // result set only contains s2 - s1
     assert(!f.contains("mango"));   // result set should only contain "apple"
     assert(!f.contains("banana"));  // result set doesn't contain origianl value
 
+    excludeInclude(e, d, f);
+    assert(f.empty());
+
         // Result already contains a value, both sets are the same size 
     d.insert("melon");
     excludeInclude(d, e, f);
+    assert(f.size() == 1);
     assert(f.contains("apple"));    // result set only contains s2 - s1
     assert(!f.contains("melon"));   // result set should only contain "apple"
     assert(!f.contains("banana"));  // result set doesn't contain origianl value
@@ -89,6 +99,7 @@ void test()
         // Result starts out empty 
     f.erase("apple");
     excludeInclude(d, e, f);
+    assert(f.size() == 1);
     assert(f.contains("apple"));
     assert(!f.contains("mango"));
 

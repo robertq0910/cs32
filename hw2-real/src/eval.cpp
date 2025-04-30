@@ -45,24 +45,6 @@ bool isValid(char prev, char curr) {
 	return curr == 'T' || curr == 'F' || curr == '(' || curr == '!';
 }
 
-bool validateInfix(string const& infix) {
-	// Save previous non-space character off stack
-	char prev = '\0';	// No previous character bc we start off with an empty stack
-	for (int i=0; i<infix.length(); i++) {
-		char curr = infix[i];
-		// Skip spaces
-		if (curr == ' ') {
-			continue;
-		}
-
-		if (!isValid(prev, curr)) {
-			return false;
-		}
-		prev = curr;
-	}
-	return true;
-}
-
 // return: 1 when op1 has higher precendence than op2
 // return: 0 when op1 has same precendence as op2
 // return: -1 when op1 has lower precendence than op2
@@ -101,17 +83,24 @@ char bool_2_char(bool b) {
 
 int evaluate(string infix, string& postfix, bool& result) {
 	//Infix --> postfix conversion
-	if (!validateInfix(infix)) {
-		return 1;
-	}
 
 	// Initialize postfix to empty
 	postfix = "";
 	// Initialize operator stack to empty
 	stack<char> operatorStack;
 	//For each character ch in the infix string 
+	char prev = '\0';	// No previous character bc we start off with an empty stack
 	for (int i = 0; i < infix.length(); i++) {
 		char ch = infix[i];
+		if (ch == ' ') {
+			continue;
+			cerr << "skip space";
+		}
+		if (!isValid(prev, ch)) {
+			cerr << "invalid";
+			return 1;
+		}
+		prev = ch;
 
 		switch (ch) {
 		// operand
@@ -146,7 +135,7 @@ int evaluate(string infix, string& postfix, bool& result) {
 				operatorStack.pop();
 			}
 
-			if (operatorStack.empty()) { // not found corresponding '('
+			if (operatorStack.empty()) { // expect matching '('
 				return 1;
 			}
 			operatorStack.pop();

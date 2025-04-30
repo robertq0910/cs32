@@ -148,10 +148,6 @@ int evaluate(string infix, string& postfix, bool& result) {
 
 			break;
 
-		// ignore white space
-		case ' ':
-			break;
-
 		// invalid ch
 		default:
 			return 1;
@@ -167,7 +163,6 @@ int evaluate(string infix, string& postfix, bool& result) {
 		postfix += operatorStack.top();
 		operatorStack.pop();
 	}
-	// operatorStack.pop(); <-- cannot pop coz it's empty when previous while loop breaks
 
 	// Evaluate postfix 
 	
@@ -176,7 +171,6 @@ int evaluate(string infix, string& postfix, bool& result) {
 	// For each character ch in the postfix string 
 	for (int i = 0; i < postfix.length(); i++) {
 		char ch = postfix[i];
-
 		if (ch == 'T' || ch == 'F') {
 			operandStack.push(ch);
 		}

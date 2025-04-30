@@ -107,7 +107,7 @@ int evaluate(string infix, string& postfix, bool& result) {
 		case 'T':
 		case 'F':
 			postfix += ch;
-			// Process all '|'s immediately in front of expression
+			// Process all '!'s immediately in front of expression
 			while (!operatorStack.empty() && operatorStack.top() == '!') {
 				postfix += operatorStack.top();
 				operatorStack.pop();
@@ -140,7 +140,7 @@ int evaluate(string infix, string& postfix, bool& result) {
 			}
 			operatorStack.pop();
 
-			// Process all '|'s immediately in front of '('
+			// Process all '!'s immediately in front of '('
 			while (!operatorStack.empty() && operatorStack.top() == '!') {
 				postfix += operatorStack.top();
 				operatorStack.pop();

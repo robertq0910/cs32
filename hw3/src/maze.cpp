@@ -32,6 +32,8 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
         return true;
     }
     // Go south
+    // If south is not wall and path exists from south, then return true.
+    // If no path exists from south, don't return false. Check other directions.
     if (maze[sr + 1][sc] == '.' && pathExists(maze, sr + 1, sc, er, ec)) {
         return true;
     }

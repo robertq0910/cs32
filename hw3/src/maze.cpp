@@ -26,26 +26,29 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
                      then return true.
     Return false.
     */
+    cout << "(" << sr << " , " << sc << ")" << endl;
+    maze[sr][sc] = '#'; // mark as visited
     if (sr == er && sc == ec) {
-        maze[sr][sc] = '#';
         return true;
     }
     // Go south
-    if (maze[sr][sc] == '.') {
-        return pathExists(maze, sr + 1, sc, er, ec);
+    if (maze[sr + 1][sc] == '.' && pathExists(maze, sr + 1, sc, er, ec)) {
+        return true;
     }
     // Go west
-    if (maze[sr][sc] == '.') {
-        return pathExists(maze, sr, sc - 1, er, ec);
+    if (maze[sr][sc - 1] == '.' && pathExists(maze, sr, sc - 1, er, ec)) {
+        return true;
     }
     // Go north
-    if (maze[sr][sc] == '.') {
-        return pathExists(maze, sr - 1, sc, er, ec);
+    if (maze[sr - 1][sc] == '.' && pathExists(maze, sr - 1, sc, er, ec)) {
+        return true;
     }
     // Go east
-    if (maze[sr][sc] == '.') {
-        return pathExists(maze, sr, sc + 1, er, ec);
+    if (maze[sr][sc + 1] == '.' && pathExists(maze, sr, sc + 1, er, ec)) {
+        return true;
     }
+
+    return false; // must return a value if all above if() fails
 }
 
 int main()

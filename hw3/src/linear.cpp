@@ -36,15 +36,7 @@ int countTrue(const string a[], int n) {
     if (n <= 0) {
         return 0;
     }
-    int count = countTrue(a + 1, n - 1);
-    // Remember  to store in a variable
-    if (somePredicate(a[0])) {
-        cerr << "Adding 1 to count, ";
-        count++;
-    }
-    cerr << "Adding 1 to count, ";
-    cerr << "Count = " << count << endl;
-    return count;
+    return countTrue(a + 1, n - 1) + (somePredicate(a[0]) ? 1 : 0); // more concise
 }
 
 int firstTrue(const string a[], int n) {
@@ -65,7 +57,7 @@ int firstTrue(const string a[], int n) {
         cerr << "Found true value: " << count+1 << endl; 
         return count+1;
     }
-    return -1;
+    //return -1; // not needed
 }
 
 int locateMax(const string a[], int n) {
@@ -91,10 +83,11 @@ int locateMax(const string a[], int n) {
 }
 
 bool contains(const string a1[], int n1, const string a2[], int n2) {
-    if (n2 == 0) {
+    if (n2 <= 0) {
         return true;
     }
-    if (n1 == 0 && n2 > 0) {
+    // use n1 < n2 to return false faster. To hav1 a1 contains a2, n1 must be >= n2
+    if (n1 < n2/* && n2 > 0*/) { // n2 > 0 must be true after the above check
         return false;
     }
     

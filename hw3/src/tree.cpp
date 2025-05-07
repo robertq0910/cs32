@@ -7,7 +7,7 @@ int countContains(const string a1[], int n1, const string a2[], int n2)
     if (n2 <= 0) {
         return 1;   // Empty a2 always matches
     }
-    if (n1 == 0) {  // Empty a1 has no match 
+    if (n1 <= 0) {  // Empty a1 has no match 
         return 0;
     }
     if (a1[0] == a2[0]) {   // If first values match
@@ -64,7 +64,7 @@ void order(string a[], int n)
     // Don't use return on the recursion here bc we gotta go on each time? 
     // I know this is gonna mean it gets lost but also this is a void function?
     order(a, firstNotLess);
-    order(a + firstNotLess, n - firstGreater);
+    order(a + firstGreater, n - firstGreater);
 }
 
 int main()

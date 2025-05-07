@@ -26,7 +26,7 @@ bool pathExists(char maze[][10], int sr, int sc, int er, int ec) {
                      then return true.
     Return false.
     */
-    cout << "(" << sr << " , " << sc << ")" << endl;
+    cerr << "(" << sr << " , " << sc << ")" << endl;
     maze[sr][sc] = '#'; // mark as visited
     if (sr == er && sc == ec) {
         return true;

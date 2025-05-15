@@ -15,10 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\tree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\maze.cpp">
+    <ClCompile Include="hw4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

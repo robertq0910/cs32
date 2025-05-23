@@ -19,18 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\evenvector.cpp" />
-    <ClCompile Include="src\HW4EvenList.cpp" />
+    <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Set.h" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Scaffold.cpp" />
+    <ClCompile Include="src\support.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d7dd4ed9-25c0-481b-947a-4f750a7cdc3d}</ProjectGuid>
-    <RootNamespace>hw4</RootNamespace>
+    <ProjectGuid>{d27d2026-5f2a-4a9e-b871-8003e24d7c08}</ProjectGuid>
+    <RootNamespace>prj3</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

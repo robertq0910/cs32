@@ -1,0 +1,116 @@
+// Player.cpp
+
+#include "provided.h"
+#include <string>
+#include <iostream>
+using namespace std;
+
+class HumanPlayerImpl
+{
+public:
+    HumanPlayerImpl(HumanPlayer* p);
+    int chooseMove(const Scaffold& s, int N, int color);
+    //bool isInteractive() const override { return true; }
+private:
+    HumanPlayer* m_player;
+};
+
+class BadPlayerImpl
+{
+public:
+    int chooseMove(const Scaffold& s, int N, int color);
+};
+
+class SmartPlayerImpl
+{
+public:
+    int chooseMove(const Scaffold& s, int N, int color);
+};
+
+HumanPlayerImpl::HumanPlayerImpl(HumanPlayer* p)
+    : m_player(p)
+{}
+
+int HumanPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
+{
+    int col = 0;
+    while (col < 1 || col > s.cols()) {
+        cout << "Pick a column: ";
+        cin >> col;
+        // Check that the top level has empty spaces left
+        int topLevel = s.levels();
+        if (s.checkerAt(col, topLevel) == VACANT) 
+            break;
+    }
+    return col;
+}
+
+int BadPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
+{
+    for (int col = 1; col <= s.cols(); col++) { // Columns are 1-based
+        for (int level = 1; level <= s.levels(); level++) {
+            if (s.checkerAt(col, level) == VACANT) {
+                return col;
+            }
+        }
+    }
+    return 0;
+}
+
+int SmartPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
+{
+    return 0;  //  This is not always correct; it's just here to compile
+}
+
+//******************** Player derived class functions *************************
+
+//  These functions simply delegate to the Impl classes' functions.  You should
+//  not change any of the code from here to the end of this file.
+
+HumanPlayer::HumanPlayer(string nm)
+    : Player(nm)
+{
+    m_impl = new HumanPlayerImpl(this);
+}
+
+HumanPlayer::~HumanPlayer()
+{
+    delete m_impl;
+}
+
+int HumanPlayer::chooseMove(const Scaffold& s, int N, int color)
+{
+    return m_impl->chooseMove(s, N, color);
+}
+
+BadPlayer::BadPlayer(string nm)
+    : Player(nm)
+{
+    m_impl = new BadPlayerImpl;
+}
+
+BadPlayer::~BadPlayer()
+{
+    delete m_impl;
+}
+
+int BadPlayer::chooseMove(const Scaffold& s, int N, int color)
+{
+    return m_impl->chooseMove(s, N, color);
+}
+
+SmartPlayer::SmartPlayer(string nm)
+    : Player(nm)
+{
+    m_impl = new SmartPlayerImpl;
+}
+
+SmartPlayer::~SmartPlayer()
+{
+    delete m_impl;
+}
+
+int SmartPlayer::chooseMove(const Scaffold& s, int N, int color)
+{
+    return m_impl->chooseMove(s, N, color);
+}

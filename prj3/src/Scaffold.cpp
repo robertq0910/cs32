@@ -71,15 +71,8 @@ int ScaffoldImpl::numberEmpty() const
 
 int ScaffoldImpl::checkerAt(int column, int level) const
 {
-    if (m_grid[column - 1][level - 1] == RED) {
-        return RED;
-    }
-    else if (m_grid[column - 1][level - 1] == BLACK) {
-        return BLACK;
-    }
-    else {
-        return VACANT;
-    }
+
+    return (m_grid[column - 1][level - 1]);
 }
 
 void ScaffoldImpl::display() const

@@ -21,7 +21,7 @@ int main()
 	*/
 
 	//Testing Scaffold.cpp
-	Scaffold s(4, 3);
+	/*Scaffold s(4, 3);
 	cout << "Initial empty board" << endl;
 	s.display();
 	BadPlayer bp("Bot");
@@ -30,7 +30,13 @@ int main()
 	HumanPlayer hp("Olivia");
 	int humanMove = hp.chooseMove(s, 1 , BLACK);
 	s.makeMove(humanMove, BLACK);
-	s.display();
+	s.display();*/
+
+	SmartPlayer bp(">:(");
+	HumanPlayer hp("Olivia");
+	Game g(3, 3, 3, &bp, &hp);
+	g.play();
+
 
 	/*s.makeMove(2, RED);
 	s.makeMove(1, BLACK);

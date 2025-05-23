@@ -3,6 +3,7 @@
 #include "provided.h"
 #include <string>
 #include <iostream>
+#include "support.h"
 using namespace std;
 
 class HumanPlayerImpl
@@ -12,7 +13,7 @@ public:
     int chooseMove(const Scaffold& s, int N, int color);
     //bool isInteractive() const override { return true; }
 private:
-    HumanPlayer* m_player;
+    // HumanPlayer* m_player;
 };
 
 class BadPlayerImpl
@@ -28,7 +29,6 @@ public:
 };
 
 HumanPlayerImpl::HumanPlayerImpl(HumanPlayer* p)
-    : m_player(p)
 {}
 
 int HumanPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
@@ -48,10 +48,8 @@ int HumanPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 int BadPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 {
     for (int col = 1; col <= s.cols(); col++) { // Columns are 1-based
-        for (int level = 1; level <= s.levels(); level++) {
-            if (s.checkerAt(col, level) == VACANT) {
+            if (s.checkerAt(col, s.levels()) == VACANT) {
                 return col;
-            }
         }
     }
     return 0;
@@ -59,7 +57,7 @@ int BadPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 
 int SmartPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 {
-    return 0;  //  This is not always correct; it's just here to compile
+    return makeComputerMove(s, N, color, 0);
 }
 
 //******************** Player derived class functions *************************

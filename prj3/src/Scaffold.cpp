@@ -23,6 +23,7 @@ private:
     int m_cols;
     int m_levels;
     stack<pair<int, int>> m_moveHistory;
+    int m_vacants;
 };
 
 ScaffoldImpl::ScaffoldImpl(int nColumns, int nLevels)
@@ -34,6 +35,7 @@ ScaffoldImpl::ScaffoldImpl(int nColumns, int nLevels)
 
     m_cols = nColumns;
     m_levels = nLevels;
+    m_vacants = nColumns * nLevels;
 
     m_grid.resize(m_cols); // Grid grow has M empty rows
     for (int i = 0; i < m_cols; i++) {
@@ -55,18 +57,7 @@ int ScaffoldImpl::levels() const
 
 int ScaffoldImpl::numberEmpty() const
 {
-    // Loop through each level and column
-    // Check if the cell is VACANT
-    int count = 0;
-    for (int level = 0; level < m_levels; level++) {
-        for (int col = 0; col < m_cols; col++) {
-            if (m_grid[col][level] == VACANT) {
-                count++;
-            }
-        }
-    }
-    // Return number of VACANT cells 
-    return count;
+    return m_vacants;
 }
 
 int ScaffoldImpl::checkerAt(int column, int level) const
@@ -116,6 +107,7 @@ bool ScaffoldImpl::makeMove(int column, int color)
         if (m_grid[colIndex][level] == VACANT) {
             m_grid[colIndex][level] = color;   // Place checker
             m_moveHistory.push({ colIndex, level });    // Push position to checker so we can pop it later to undo
+            --m_vacants;
             return true;
         }
     }
@@ -135,6 +127,7 @@ int ScaffoldImpl::undoMove()
     // Undo most recent move
     m_moveHistory.pop();
 
+    ++m_vacants;
     // Return column number of removed checker
     return col + 1; // 1-based column number
     

@@ -68,12 +68,66 @@ bool checkGameOver(const Scaffold& s, int N, int& winner) {
     }
     return false;
 }
+
+bool checkGameOver2(const Scaffold& s, int N, int col, int color) {
+    int level, c, l;
+    for (level = s.levels(); level >= 1 && s.checkerAt(col, level) == VACANT; level--);
+    int cont = 1;
+    for (l=level-1; l>= 1 && s.checkerAt(col, l) == color; l--) {
+        cont++;
+        if (cont >= N) {
+            return true;
+        }
+    }
+
+    cont = 1;
+    for (l = level + 1, c = col + 1; l <= s.levels() && c <= s.cols() && s.checkerAt(c, l) == color; l++, c++) {
+        if (++cont >= N) {
+            return true;
+        }
+    }
+    for (l = level - 1, c = col - 1; l  >= 1 && c  >= 1 && s.checkerAt(c, l) == color; l--, c--) {
+        if (++cont >= N) {
+            return true;
+        }
+    }
+
+    cont = 1;
+    for (l = level + 1, c = col - 1; l <= s.levels() && c >= 1 && s.checkerAt(c, l) == color; l++, c--) {
+        if (++cont >= N) {
+            return true;
+        }
+    }
+    for (l = level - 1, c = col + 1; l >= 1 && c <= s.cols() && s.checkerAt(c, l) == color; l--, c++) {
+        if (++cont >= N) {
+            return true;
+        }
+    }
+
+    if (level >= 0) {
+        cont = 1;
+        for (l = level, c = col - 1; c >= 1 && s.checkerAt(c, l) == color; c--) {
+            if (++cont >= N) {
+                return true;
+            }
+        }
+        for (l = level, c = col + 1; c <= s.cols() && s.checkerAt(c, l) == color; c++) {
+            if (++cont >= N) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+int g_count = 0;
 int makeComputerMove(const Scaffold& s, int N, int color, int depth) {
+    g_count = 0;
     Scaffold tempS = s;
     pair <int, int> result = determineBestComputerMove(tempS, N, color, depth);
     return result.first;
 }
-
 /*
 int makeComputerMove(const Scaffold& s, int N, int color, int depth, int smartColor, int& bestCol, int& winner) {
     int bestScore;
@@ -89,10 +143,10 @@ int makeComputerMove(const Scaffold& s, int N, int color, int depth, int smartCo
     else {
         bestScore = INT_MAX;
     }
-	for (int i = 1; i <= s.cols(); i++) {
+    for (int i = 1; i <= s.cols(); i++) {
         // Make move 
-		if (s.makeMove(i, color)) {
-			// Make variable for checkGameOver with who just won 
+        if (s.makeMove(i, color)) {
+            // Make variable for checkGameOver with who just won 
             bool gameOver = checkGameOver(s, N, winner);
 
             // If the game is over, declare winner and track score 
@@ -146,9 +200,9 @@ int makeComputerMove(const Scaffold& s, int N, int color, int depth, int smartCo
                 }
             }
 
-		}
-	}
-	return bestScore;
+        }
+    }
+    return bestScore;
 
 
 }
@@ -162,43 +216,41 @@ pair<int, int> determineBestComputerMove(Scaffold& s, int N, int color, int dept
     //int bestDepth = INT_MAX;
     int tempScore = 0;
     //int nextColor = VACANT;
+    
+    //cout << "C: " << (++g_count) << endl;
 
-    // Iterate through all possible moves the computer can make 
     for (int col = 1; col <= s.cols(); col++) {
         if (!s.makeMove(col, color)) {
             continue;
         }
 
         // Make variable for checkGameOver with who just won 
-        bool gameOver = checkGameOver(s, N, winner);
+        bool gameOver = checkGameOver2(s, N, col, color);
+        //if (gameOver) {
+        //    s.display();
+        //    cout << col << endl;
+        //    cin.ignore(10000, '\n');    // Wait for the user to press enter 
+        //}
+        s.undoMove();
         if (gameOver) {
-            // Rate scaffold after move has been made
-            // bool gameOver = checkGameOver(s, N, winner);
-            // If bot won
-            if (winner == color) {
-                tempScore = INT_MAX - depth;
-            }
-            // If tie
-            else if (winner == TIE_GAME) {
-                tempScore = 0;
-            }
-            // If human won 
-            else {
-                tempScore = -(INT_MAX - depth);
-            }
+            tempScore = INT_MAX - depth;
+            return make_pair(col, tempScore);
+        }
+    }
+
+        // Iterate through all possible moves the computer can make 
+    for (int col = 1; col <= s.cols(); col++) {
+        if (!s.makeMove(col, color)) {
+            continue;
+        }
+        if (s.numberEmpty() == 0) {
+            tempScore = 0;
         }
         // If game isn't over...
         else {
             // Switch player
-            if (color == RED) {
-                color = BLACK;
-            }
-            else if (color == BLACK) {
-                color = RED;
-            }
-            //int dummyCol;   Because that's gonna be in determineBestHumanMove's return 
             // Recurse with determineBestHumanMove()
-            pair<int, int> result = determineBestHumanMove(s, N, color, depth + 1);
+            pair<int, int> result = determineBestHumanMove(s, N, color == RED ? BLACK : RED, depth + 1);
             tempScore = result.second;  // Remember the result for each human move 
         }
                     
@@ -224,6 +276,8 @@ pair<int, int> determineBestHumanMove(Scaffold& s, int N, int color, int depth) 
     int tempScore = 0;
     //int nextColor = VACANT;
 
+    //cout << "H: " << (++g_count) << endl;
+
     // Iterate through all possible moves the computer can make 
     for (int col = 1; col <= s.cols(); col++) {
         if (!s.makeMove(col, color)) {
@@ -231,35 +285,21 @@ pair<int, int> determineBestHumanMove(Scaffold& s, int N, int color, int depth) 
         }
 
         // Make variable for checkGameOver with who just won 
-        bool gameOver = checkGameOver(s, N, winner);
+        bool gameOver = checkGameOver2(s, N, col, color);
         if (gameOver) {
             // Rate scaffold after move has been made
             // bool gameOver = checkGameOver(s, N, winner);
             // If bot won
-            if (winner == color) {
-                tempScore = -(INT_MAX - depth); 
-            }
-            // If tie
-            else if (winner == TIE_GAME) {
-                tempScore = 0;
-            }
-            // If human won 
-            else {
-                tempScore = INT_MAX - depth;
-            }
+            tempScore = -(INT_MAX - depth);
         }
         // If game isn't over...
+        else if (s.numberEmpty() == 0) {
+            tempScore = 0;
+        }
         else {
             // Switch player
-            if (color == RED) {
-                color = BLACK;
-            }
-            else if (color == BLACK) {
-                color = RED;
-            }
-            //int dummyCol;   Because that's gonna be in determineBestHumanMove's return 
             // Recurse with determineBestHumanMove()
-            pair<int, int> result = determineBestComputerMove(s, N, color, depth + 1);
+            pair<int, int> result = determineBestComputerMove(s, N, color == RED ? BLACK : RED, depth + 1);
             tempScore = result.second;  // Remember the result for each human move 
         }
 

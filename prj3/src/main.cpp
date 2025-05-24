@@ -34,7 +34,7 @@ int main()
 
 	SmartPlayer bp(">:(");
 	HumanPlayer hp("Olivia");
-	Game g(3, 3, 3, &bp, &hp);
+	Game g(6, 2, 3, &bp, &hp);
 	g.play();
 
 

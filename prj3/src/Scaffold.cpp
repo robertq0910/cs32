@@ -11,6 +11,8 @@ class ScaffoldImpl
 {
 public:
     ScaffoldImpl(int nColumns, int nLevels);
+    //ScaffoldImpl(const ScaffoldImpl& other);
+    //ScaffoldImpl& operator=(const ScaffoldImpl& rhs);
     int cols() const;
     int levels() const;
     int numberEmpty() const;
@@ -23,21 +25,19 @@ private:
     int m_cols;
     int m_levels;
     stack<pair<int, int>> m_moveHistory;
-    int m_vacants;
 };
 
 ScaffoldImpl::ScaffoldImpl(int nColumns, int nLevels)
 {
-    if (nColumns <= 0 || nLevels <= 0) {
+    if (nColumns < 1 || nLevels < 1) {
         cerr << "Invalid scaffold dimensions" << endl;
         exit(1);
     }
 
     m_cols = nColumns;
     m_levels = nLevels;
-    m_vacants = nColumns * nLevels;
 
-    m_grid.resize(m_cols); // Grid grow has M empty rows
+    m_grid.resize(m_cols); // Grid has M empty rows
     for (int i = 0; i < m_cols; i++) {
         m_grid[i].resize(m_levels, VACANT);  // Row i now has N colums
     }
@@ -47,7 +47,7 @@ ScaffoldImpl::ScaffoldImpl(int nColumns, int nLevels)
 
 int ScaffoldImpl::cols() const
 {
-    return m_cols;  
+    return m_cols;
 }
 
 int ScaffoldImpl::levels() const
@@ -57,12 +57,25 @@ int ScaffoldImpl::levels() const
 
 int ScaffoldImpl::numberEmpty() const
 {
-    return m_vacants;
+    // Loop through each level and column
+    // Check if the cell is VACANT
+    int count = 0;
+    for (int level = 0; level < m_levels; level++) {
+        for (int col = 0; col < m_cols; col++) {
+            if (m_grid[col][level] == VACANT) {
+                count++;
+            }
+        }
+    }
+    // Return number of VACANT cells 
+    return count;
 }
 
 int ScaffoldImpl::checkerAt(int column, int level) const
 {
-
+    if (column < 1 || column > m_cols || level < 1 || level > m_levels) {
+        return VACANT;
+    }
     return (m_grid[column - 1][level - 1]);
 }
 
@@ -99,15 +112,16 @@ bool ScaffoldImpl::makeMove(int column, int color)
 {
     // Check that column paramenter is valid and has >=1 vacant positions
     if (column > m_cols || column < 1 || (color != RED && color != BLACK)) {
+        cerr << "nope try again" << endl;
         return false;
     }
+
     // If color = red || black, drop checker into that column, return true
     int colIndex = column - 1;  // Bc the "column" passed in is 1-based
     for (int level = 0; level < m_levels; level++) {
         if (m_grid[colIndex][level] == VACANT) {
             m_grid[colIndex][level] = color;   // Place checker
             m_moveHistory.push({ colIndex, level });    // Push position to checker so we can pop it later to undo
-            --m_vacants;
             return true;
         }
     }
@@ -127,10 +141,9 @@ int ScaffoldImpl::undoMove()
     // Undo most recent move
     m_moveHistory.pop();
 
-    ++m_vacants;
     // Return column number of removed checker
     return col + 1; // 1-based column number
-    
+
 }
 
 //******************** Scaffold functions *******************************

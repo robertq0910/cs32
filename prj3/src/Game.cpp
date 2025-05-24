@@ -71,7 +71,7 @@ void GameImpl::play()
 		// If the current player is human
 		if (m_currentPlayer->isInteractive())
 			// Cout your move 
-			cout << "Your move! Enter a column number: ";
+			cout << "Your move! ";
 		// If the current player is a bot 
 		else
 			// Cout status update   

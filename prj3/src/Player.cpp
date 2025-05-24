@@ -34,15 +34,20 @@ HumanPlayerImpl::HumanPlayerImpl(HumanPlayer* p)
 int HumanPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 {
     int col = 0;
-    while (col < 1 || col > s.cols()) {
+    while (true) {
         cout << "Pick a column: ";
         cin >> col;
+
+        if (col < 1 || col > s.cols()) {
+            cout << "Column out of range, try again." << endl;
+            continue;
+        }
+
         // Check that the top level has empty spaces left
         int topLevel = s.levels();
         if (s.checkerAt(col, topLevel) == VACANT) 
-            break;
+            return col;
     }
-    return col;
 }
 
 int BadPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
@@ -56,8 +61,13 @@ int BadPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
 }
 
 int SmartPlayerImpl::chooseMove(const Scaffold& s, int N, int color)
-{
-    return makeComputerMove(s, N, color, 0);
+{ 
+    double timeLimit = 9900;
+    JumpyTimer timer(1000);
+
+    int bestMove = makeComputerMove(s, N, color, 0, timeLimit, timer);
+    // cout << bestMove;
+    return bestMove;
 }
 
 //******************** Player derived class functions *************************
